@@ -20,7 +20,7 @@ def click_event(event, x, y, flags, param):
         color_name = closest_color[0]
 
         # Display the color name on the frame
-        cv2.putText(frame, color_name, (frame.shape[1] // 2, frame.shape[0] - 180), cv2.FONT_HERSHEY_TRIPLEX, 3.75,
+        cv2.putText(frame, color_name, (frame.shape[1] // 40, frame.shape[0] - 180), cv2.FONT_HERSHEY_TRIPLEX, 3.75,
                     (38, 181, 181), 6)
         cv2.imshow('frame', frame)
         time.sleep(2)
