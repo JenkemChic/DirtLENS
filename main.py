@@ -3,6 +3,9 @@ import numpy as np
 import sys
 import time
 
+from gps_helper import get_current_position
+
+
 sys.path.append('colors.py')
 import colors
 
@@ -22,6 +25,16 @@ def click_event(event, x, y, flags, param):
         # Display the color name on the frame
         cv2.putText(frame, color_name, (frame.shape[1] // 40, frame.shape[0] - 180), cv2.FONT_HERSHEY_TRIPLEX, 3.75,
                     (38, 181, 181), 6)
+
+        # Retrieve GPS data and display it on the screen
+        try:
+            lat, long = get_current_position()
+            gps_info = f"Latitude: {lat:.6f}  Longitude: {long:.6f}"
+        except Exception as e:
+            print(f"Failed to retrieve GPS data: {e}")
+            gps_info = "GPS data unavailable"
+        cv2.putText(frame, gps_info, (frame.shape[1] - 600, 70), cv2.FONT_HERSHEY_TRIPLEX, 1.5, (255, 255, 255), 2)
+
         cv2.imshow('frame', frame)
         time.sleep(2)
 
