@@ -40,6 +40,15 @@ def click_event(event, x, y, flags, param):
 
 
 cap = cv2.VideoCapture(0)
+
+# Calibrate white balance
+print("Calibrating white balance. Please wait...")
+time.sleep(5)  # Wait for the camera to stabilize
+_, frame = cap.read()
+temperature = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).mean()  # Calculate the white balance temperature
+cap.set(cv2.CAP_PROP_TEMPERATURE, temperature)
+print("White balance calibrated successfully.")
+
 cv2.namedWindow('frame')
 cv2.setMouseCallback('frame', click_event, param={'frame': None})
 
