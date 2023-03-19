@@ -4,27 +4,23 @@ import sys
 import time
 
 from gps_helper import get_current_position
-
+from circle_color_detector import CircleColorDetector
 
 sys.path.append('colors.py')
 import colors
 
+detector_circle_radius = 80
+color_detector = CircleColorDetector()
 
 def click_event(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         frame = param['frame']
-        pixel = frame[y, x]
-        r = pixel[2]
-        g = pixel[1]
-        b = pixel[0]
 
-        # Find the closest color by comparing the RGB values
-        closest_color = min(colors.colors, key=lambda x: sum([abs(x[3] - r), abs(x[4] - g), abs(x[5] - b)]))
-        color_name = closest_color[0]
+        # Draw a bright yellow circle around the clicked point
+        cv2.circle(frame, (x, y), detector_circle_radius, (22, 240, 0), 2)
 
-        # Display the color name on the frame
-        cv2.putText(frame, color_name, (frame.shape[1] // 40, frame.shape[0] - 180), cv2.FONT_HERSHEY_TRIPLEX, 3.75,
-                    (38, 181, 181), 6)
+        # Detect the color at the clicked point
+        color_name, color_rgb = color_detector.detect_color(frame, (x, y), detector_circle_radius)
 
         # Retrieve GPS data and display it on the screen
         try:
@@ -37,7 +33,6 @@ def click_event(event, x, y, flags, param):
 
         cv2.imshow('frame', frame)
         time.sleep(2)
-
 
 cap = cv2.VideoCapture(0)
 cv2.namedWindow('frame')

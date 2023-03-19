@@ -1,12 +1,16 @@
-import gpsd
+from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut, GeocoderUnavailable
 
 
 def get_current_position():
-    gpsd.connect()
-    packet = gpsd.get_current()
-    gpsd.close()
+    geolocator = Nominatim(user_agent="myGeocoder")
 
-    if not packet.is_valid:
-        raise Exception('GPS data not valid')
+    try:
+        location = geolocator.geocode("175 5th Avenue NYC")
 
-    return packet.position()
+        if location is not None:
+            return location.latitude, location.longitude
+        else:
+            raise Exception("Unable to retrieve location")
+    except (GeocoderTimedOut, GeocoderUnavailable) as e:
+        raise Exception(f"Geocoder error: {e}")
