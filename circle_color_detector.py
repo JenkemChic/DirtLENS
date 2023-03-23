@@ -2,19 +2,19 @@ import cv2
 import numpy as np
 from colors import colors
 
+
 class CircleColorDetector:
-    def __init__(self):
-        self.lower_color_thresholds = (0, 0, 0)
-        self.upper_color_thresholds = (255, 255, 255)
+    def __init__(self, colors):
+        self.colors = colors
 
     def get_color_name(self, color_rgb):
         color_diffs = []
-        for color in colors:
+        for color in self.colors:
             diff = sum([abs(color[i + 3] - color_rgb[i]) for i in range(3)])
             color_diffs.append((color[0], diff))
 
         min_diff_color = min(color_diffs, key=lambda x: x[1])
-        return min_diff_color[0], color_rgb
+        return min_diff_color[0], min_diff_color[1]
 
     def get_average_color_within_circle(self, frame, x, y, r):
         circle_mask = np.zeros(frame.shape[:2], dtype=np.uint8)
