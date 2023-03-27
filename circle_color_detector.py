@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 from colors import colors
 
-
 class CircleColorDetector:
     def __init__(self, colors):
         self.colors = colors
@@ -10,8 +9,10 @@ class CircleColorDetector:
     def get_color_name(self, color_rgb):
         color_diffs = []
         for color in self.colors:
-            diff = sum([abs(color[i + 3] - color_rgb[i]) for i in range(3)])
-            color_diffs.append((color[0], diff))
+            lab_color = cv2.cvtColor(np.uint8([[color_rgb]]), cv2.COLOR_RGB2LAB)[0][0]
+            lab_color_ref = cv2.cvtColor(np.uint8([[color[3:6]]]), cv2.COLOR_RGB2LAB)[0][0]
+            delta_e = cv2.norm(lab_color, lab_color_ref, cv2.NORM_L2)
+            color_diffs.append((color[0], delta_e))
 
         min_diff_color = min(color_diffs, key=lambda x: x[1])
         return min_diff_color[0], min_diff_color[1]
@@ -23,9 +24,13 @@ class CircleColorDetector:
         mask_pixels = cv2.countNonZero(circle_mask)
         if mask_pixels == 0:
             return (0, 0, 0)
-        circle_sum = cv2.sumElems(circle)
-        circle_sum = np.array(circle_sum)
-        average_color = tuple(map(lambda x: int(x / mask_pixels), circle_sum))
+        y_indices, x_indices = np.where(circle_mask == 255)
+        distances = np.sqrt((y_indices - y) ** 2 + (x_indices - x) ** 2)
+        weights = 1 - distances / r
+        weights = np.clip(weights, 0, 1)
+        circle_values = frame[y_indices, x_indices]
+        weighted_average_color = np.average(circle_values, axis=0, weights=weights)
+        average_color = tuple(map(int, weighted_average_color))
         return average_color
 
     def detect_color(self, frame, click_point, radius):
