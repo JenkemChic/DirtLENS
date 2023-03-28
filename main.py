@@ -58,22 +58,22 @@ while True:
         color_name, color_rgb = color_detector.detect_color(original_frame, (x, y), detector_circle_radius)
         if color_name is not None:
             center_x = frame.shape[1] // 2
-            color_text_size, _ = cv2.getTextSize(color_name, cv2.FONT_HERSHEY_DUPLEX, 3.75, 6)
+            color_text_size, _ = cv2.getTextSize(color_name, cv2.FONT_HERSHEY_COMPLEX, 3.75, 6)
             cv2.putText(frame, color_name, (center_x - color_text_size[0] // 2, color_text_size[1] + 20),
-                        cv2.FONT_HERSHEY_DUPLEX, 3.75, (46, 2, 0), 12, cv2.LINE_AA)
+                        cv2.FONT_HERSHEY_COMPLEX, 3.75, (46, 2, 0), 12, cv2.LINE_AA)
             cv2.putText(frame, color_name, (center_x - color_text_size[0] // 2, color_text_size[1] + 20),
-                        cv2.FONT_HERSHEY_DUPLEX, 3.75, (38, 181, 181), 2, cv2.LINE_AA)
+                        cv2.FONT_HERSHEY_COMPLEX, 3.75, (38, 181, 181), 2, cv2.LINE_AA)
             lat, long = get_current_position()
             cardinal_dir = cardinal_direction(lat, long)
-            gps_info = f"{cardinal_dir} WALL"
-            gps_text_size, _ = cv2.getTextSize(gps_info, cv2.FONT_HERSHEY_DUPLEX, 1.75, 3)
+            gps_info = f"{cardinal_dir} Wall"
+            gps_text_size, _ = cv2.getTextSize(gps_info, cv2.FONT_HERSHEY_COMPLEX, 1.75, 3)
             cv2.putText(frame, gps_info,
                         (int(frame.shape[1] / 3 - gps_text_size[0] / 3), frame.shape[0] - gps_text_size[1] - 10),
-                        cv2.FONT_HERSHEY_DUPLEX, 2.75, (46, 2, 0), 10,
+                        cv2.FONT_HERSHEY_COMPLEX, 2.75, (46, 2, 0), 10,
                         cv2.LINE_AA)  # Add an outline with thickness of 3 pixels
             cv2.putText(frame, gps_info,
                         (int(frame.shape[1] / 3 - gps_text_size[0] / 3), frame.shape[0] - gps_text_size[1] - 10),
-                        cv2.FONT_HERSHEY_DUPLEX, 2.75, (255, 255, 255), 1,
+                        cv2.FONT_HERSHEY_COMPLEX, 2.75, (255, 255, 255), 1,
                         cv2.LINE_AA)  # Draw the text over the outline
 
             cv2.circle(frame, (x, y), detector_circle_radius, (0, 255, 0), 2)
