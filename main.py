@@ -2,11 +2,13 @@ import cv2
 import numpy as np
 import sys
 import time
+from logo import display_logo
 
 from gps_helper import get_current_position
 from circle_color_detector import CircleColorDetector
 
 import colors
+
 
 detector_circle_radius = 95
 color_detector = CircleColorDetector(colors.colors)
@@ -36,6 +38,16 @@ def click_event(event, x, y, flags, param):
 
 cap = cv2.VideoCapture(0)
 
+# Create a fullscreen window
+window_name = 'frame'
+cv2.namedWindow(window_name, cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
+# Display the logo before starting the main program
+logo_path = 'logo.png'
+display_logo(window_name, logo_path, cap)
+
+# Define required variables
 data_displayed = False
 start_time = None
 last_click_x = None
