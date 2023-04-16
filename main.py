@@ -26,17 +26,27 @@ def cardinal_direction(latitude, longitude):
 
     return f"{lat_direction}{long_direction}"
 
-
+# Add the modified click_event function here
 def click_event(event, x, y, flags, param):
-    global data_displayed, start_time, last_click_x, last_click_y
+    global data_displayed, start_time, last_click_x, last_click_y, top_right_clicks
     if event == cv2.EVENT_LBUTTONDOWN:
+        # Check if the click is in the top right corner (adjust the values as needed)
+        if x > frame.shape[1] - 100 and y < 100:
+            top_right_clicks += 1
+            if top_right_clicks == 3:
+                cv2.destroyAllWindows()
+                sys.exit()
+        else:
+            top_right_clicks = 0  # Reset the counter if the click is not in the top right corner
+
         data_displayed = True
         start_time = time.time()
         last_click_x = x
         last_click_y = y
 
-
 cap = cv2.VideoCapture(0)
+
+
 
 # Create a fullscreen window
 window_name = 'frame'
@@ -52,6 +62,7 @@ data_displayed = False
 start_time = None
 last_click_x = None
 last_click_y = None
+top_right_clicks = 0
 
 while True:
     ret, frame = cap.read()
