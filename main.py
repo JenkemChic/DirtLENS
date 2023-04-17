@@ -75,30 +75,30 @@ while True:
             center_x = frame.shape[1] // 2
             color_text_size, _ = cv2.getTextSize(color_name, cv2.FONT_HERSHEY_COMPLEX, 3.75, 6)
 
-            # Draw color name with a black border
-            for i in range(-3, 4):
-                for j in range(-3, 4):
+            # Draw color name with a fat black border
+            for i in range(-6, 7):
+                for j in range(-6, 7):
                     cv2.putText(frame, color_name,
                                 (center_x - color_text_size[0] // 2 + i, color_text_size[1] + 20 + j),
-                                cv2.FONT_HERSHEY_COMPLEX, 3.75, (0, 0, 0), 3, cv2.LINE_AA)
+                                cv2.FONT_HERSHEY_COMPLEX, 3.75, (0, 0, 0), 5, cv2.LINE_AA)
             cv2.putText(frame, color_name, (center_x - color_text_size[0] // 2, color_text_size[1] + 20),
-                        cv2.FONT_HERSHEY_COMPLEX, 3.75, (255, 255, 255), 3, cv2.LINE_AA)
+                        cv2.FONT_HERSHEY_COMPLEX, 3.75, (255, 255, 255), 5, cv2.LINE_AA)
 
             lat, long = get_current_position()
             cardinal_dir = cardinal_direction(lat, long)
             gps_info = f"{cardinal_dir} Wall"
             gps_text_size, _ = cv2.getTextSize(gps_info, cv2.FONT_HERSHEY_COMPLEX, 1.75, 3)
 
-            # Draw GPS info with a black border
-            for i in range(-2, 3):
-                for j in range(-2, 3):
+            # Draw GPS info with a fat black border
+            for i in range(-4, 5):
+                for j in range(-4, 5):
                     cv2.putText(frame, gps_info,
                                 (int(frame.shape[1] / 3 - gps_text_size[0] / 3) + i,
                                  frame.shape[0] - gps_text_size[1] - 10 + j),
-                                cv2.FONT_HERSHEY_COMPLEX, 2.75, (0, 0, 0), 1, cv2.LINE_AA)
+                                cv2.FONT_HERSHEY_COMPLEX, 2.75, (0, 0, 0), 3, cv2.LINE_AA)
             cv2.putText(frame, gps_info,
                         (int(frame.shape[1] / 3 - gps_text_size[0] / 3), frame.shape[0] - gps_text_size[1] - 10),
-                        cv2.FONT_HERSHEY_COMPLEX, 2.75, (255, 255, 255), 1, cv2.LINE_AA)
+                        cv2.FONT_HERSHEY_COMPLEX, 2.75, (255, 255, 255), 3, cv2.LINE_AA)
 
             cv2.circle(frame, (x, y), detector_circle_radius, (0, 255, 0), 2)
 
