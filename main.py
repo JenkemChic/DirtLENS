@@ -25,10 +25,14 @@ def cardinal_direction(latitude, longitude):
 
     return f"{lat_direction}{long_direction}"
 
+def draw_close_button(frame):
+    cv2.rectangle(frame, (frame.shape[1] - 100, 10), (frame.shape[1] - 20, 30), (0, 0, 255), -1)
+    cv2.putText(frame, "X", (frame.shape[1] - 70, 28), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+
 def click_event(event, x, y, flags, param):
     global data_displayed, start_time, last_click_x, last_click_y, top_right_clicks
     if event == cv2.EVENT_LBUTTONDOWN:
-        if x > frame.shape[1] - 100 and y < 100:
+        if x > frame.shape[1] - 100 and y < 30:
             top_right_clicks += 1
             if top_right_clicks == 3:
                 cv2.destroyAllWindows()
@@ -67,6 +71,7 @@ while True:
             data_displayed = False
 
     original_frame = frame.copy()
+    draw_close_button(frame)
 
     if data_displayed and last_click_x is not None and last_click_y is not None:
         x, y = last_click_x, last_click_y
@@ -85,7 +90,11 @@ while True:
                         cv2.FONT_HERSHEY_COMPLEX, 3.75, (255, 255, 255), 5, cv2.LINE_AA)
 
             lat, long = get_current_position()
-            cardinal_dir = cardinal_direction(lat, long)
+            if lat is not None and long is not None:
+                cardinal_dir = cardinal_direction(lat, long)
+            else:
+                cardinal_dir = "OFF"
+
             gps_info = f"{cardinal_dir} Wall"
             gps_text_size, _ = cv2.getTextSize(gps_info, cv2.FONT_HERSHEY_COMPLEX, 1.75, 3)
 
