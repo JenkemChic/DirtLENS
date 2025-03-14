@@ -1,4 +1,1 @@
-![Image](logo.png)
-
-A Ground-to-Munsell translation tool. For use with soil sciences. 
-
+[Click here to view the public README](http://github.com/JenkemChic/dlpublix/)
