@@ -1,5 +1,4 @@
 ![Logo](./logo.png)
-
 DirtLENS was created to enhance data collection in soil science and field-based research. Early on, I developed a light-chambered borescope to improve accuracy in analyzing soil and geological materials. That foundation evolved into a compact utility that identifies surface colors in real time and overlays them with GPS-based cardinal direction data—optimized for use in remote, outdoor environments.
 
 The system runs on a compact single-board computer housed in a cylindrical, flashlight-like chamber. A ribbon-connected camera sits at the top, with internal LED lighting for consistent illumination and a round display mounted on the back for real-time feedback.
